@@ -10,6 +10,11 @@ const container = document.createElement('div');
 container.classList.add('container');
 document.body.prepend(container);
 
+const title = document.createElement('h1');
+title.classList.add('title');
+title.textContent = 'RSS Virtual Keyboard';
+container.append(title);
+
 const textarea = document.createElement('div');
 textarea.classList.add('textarea');
 textarea.innerHTML = '<textarea></textarea>';
