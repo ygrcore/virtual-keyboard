@@ -6,17 +6,26 @@ let keyboard2 = ['`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '='
 // console.log(keyboard)
 // }
 
-const divEl = document.createElement('div');
-divEl.classList.add('container');
-document.body.prepend(divEl);
+const container = document.createElement('div');
+container.classList.add('container');
+document.body.prepend(container);
+
+const textarea = document.createElement('div');
+textarea.classList.add('textarea');
+textarea.innerHTML = '<textarea></textarea>';
+container.append(textarea);
+
+const keyboardBlock = document.createElement('div');
+keyboardBlock.classList.add('keyboard');
+container.append(keyboardBlock);
 
 
 function init() {
   for (let i=0;i<keyboard2.length;i++) {
-    let button =document.createElement('button');
+    let button = document.createElement('button');
     button.classList.add('key');
     button.textContent = `${keyboard2[i]}`
-    divEl.append(button)
+    keyboardBlock.append(button)
 
   }
 }
