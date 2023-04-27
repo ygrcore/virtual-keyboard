@@ -46,14 +46,59 @@ textarea {
   padding: 0.2rem;
 }
 
-.key {
+.row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.key,
+.backspace,
+.tab,
+.shift,
+.capslock,
+.enter,
+.control,
+.alt,
+.space {
   background-color: #444444;
   color: white;
   min-width: 3vw;
   min-height: 3vh;
   border: none;
+  padding: 0.2rem;
   margin: 0.2rem;
   border-radius: 0.2rem;
+  cursor: pointer;
+  transition: background-color .2s linear;
+}
+.key:hover,
+.backspace:hover,
+.tab:hover,
+.shift:hover,
+.capslock:hover,
+.enter:hover,
+.control:hover,
+.alt:hover,
+.space:hover {
+  background-color: #80c2b8;
+}
+.backspace,
+.tab,
+.shift,
+.capslock,
+.enter,
+.space {
+  flex-grow: 1;
+}
+.backspace,
+.tab,
+.shift,
+.capslock,
+.enter,
+.control,
+.alt,
+.arrow {
+  background-color: #222222;
 }
 
 .key-active {
@@ -64,3 +109,6 @@ textarea {
   background-color: #222222;
 }
 
+.upper-case {
+  text-transform: capitalize;
+}
