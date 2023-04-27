@@ -36,10 +36,10 @@ textarea {
 
 .keyboard {
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
-  max-width: 610px;
+  width: auto;
   height: auto;
-  flex-wrap: wrap;
   background-color: #888888;
   border: 2px solid black;
   border-radius: 0.2rem;

@@ -18,16 +18,16 @@ function createKeyboardRows() {
     start = end;
     end = i === 0 ? start + numberOfButtonsInARow[i+1] - 1 : start + numberOfButtonsInARow[i+1];
   }
-  console.log(arrayOfRows)
+  // console.log(arrayOfRows)
   return arrayOfRows;
 }
-createKeyboardRows()
+const keyboardRows = createKeyboardRows()
 
-console.log(keyboard2.slice(0,14))
-console.log(keyboard2.slice(14,14+15-1))
-console.log(keyboard2.slice(14+15-1,14+15-1+13))
-console.log(keyboard2.slice(14+15-1+13,14+15-1+13+13))
-console.log(keyboard2.slice(14+15-1+13+13,14+15-1+13+13+9))
+console.log(keyboardRows)
+// console.log(keyboard2.slice(14,14+15-1))
+// console.log(keyboard2.slice(14+15-1,14+15-1+13))
+// console.log(keyboard2.slice(14+15-1+13,14+15-1+13+13))
+// console.log(keyboard2.slice(14+15-1+13+13,14+15-1+13+13+9))
 
 const container = document.createElement('div');
 container.classList.add('container');
@@ -47,27 +47,55 @@ const keyboardBlock = document.createElement('div');
 keyboardBlock.classList.add('keyboard');
 container.append(keyboardBlock);
 
-
 function init() {
-  for (let i=0;i<keyboard2.length;i++) {
-    let button = document.createElement('button');
-    button.textContent = `${keyboard2[i]}`
-    if (keyboard2[i] === 'Backspace') button.classList.add('backspace');
-    else if (keyboard2[i] === 'Tab') button.classList.add('tab');
-    else if (keyboard2[i] === 'CapsLock') button.classList.add('capslock');
-    else if (keyboard2[i] === 'Enter') button.classList.add('enter');
-    else if (keyboard2[i] === 'Control') button.classList.add('control');
-    else if (keyboard2[i] === 'Alt') button.classList.add('alt');
-    else if (keyboard2[i] === ' ') button.classList.add('space');
-    else button.classList.add('key');
-    keyboardBlock.append(button)
-
+  for (let i=0;i<keyboardRows.length;i++) {
+    let row = document.createElement('div');
+    row.classList.add('row');
+    let rowInner = '';
+    // console.log(keyboardRows[i][0])
+    for (let j=0;j<keyboardRows[i].length;j++) {
+      let btnClass;
+      if (keyboardRows[i][j] === 'Backspace') btnClass = 'backspace';
+      else if (keyboardRows[i][j] === 'Tab') btnClass = 'tab';
+      else if (keyboardRows[i][j] === 'Shift') btnClass = 'shift';
+      else if (keyboardRows[i][j] === 'CapsLock') btnClass = 'capslock';
+      else if (keyboardRows[i][j] === 'Enter') btnClass = 'enter';
+      else if (keyboardRows[i][j] === 'Control') btnClass = 'control';
+      else if (keyboardRows[i][j] === 'Alt') btnClass = 'alt';
+      else if (keyboardRows[i][j] === ' ') btnClass = 'space';
+      else if (keyboardRows[i][j] === '↑') btnClass = 'key arrow';
+      else if (keyboardRows[i][j] === '←') btnClass = 'key arrow';
+      else if (keyboardRows[i][j] === '↓') btnClass = 'key arrow';
+      else if (keyboardRows[i][j] === '→') btnClass = 'key arrow';
+      else btnClass = 'key';
+      rowInner += `<button class="${btnClass}">${keyboardRows[i][j]}</button>`
+    }
+    // console.log(rowInner)
+    row.innerHTML = rowInner;
+    keyboardBlock.append(row)
   }
 }
+// function init() {
+//   for (let i=0;i<keyboard2.length;i++) {
+//     let button = document.createElement('button');
+//     button.textContent = `${keyboard2[i]}`
+//     if (keyboard2[i] === 'Backspace') button.classList.add('backspace');
+//     else if (keyboard2[i] === 'Tab') button.classList.add('tab');
+//     else if (keyboard2[i] === 'CapsLock') button.classList.add('capslock');
+//     else if (keyboard2[i] === 'Enter') button.classList.add('enter');
+//     else if (keyboard2[i] === 'Control') button.classList.add('control');
+//     else if (keyboard2[i] === 'Alt') button.classList.add('alt');
+//     else if (keyboard2[i] === ' ') button.classList.add('space');
+//     else button.classList.add('key');
+//     keyboardBlock.append(button)
+
+//   }
+// }
 
 init();
 
 const buttons = document.querySelectorAll('button');
+const simpleBtns = document.querySelectorAll('.key');
 const textarea = document.querySelector('textarea');
 
 // function activeBtn(btn, e) {
@@ -86,7 +114,7 @@ const textarea = document.querySelector('textarea');
 //   })
 // })
 
-buttons.forEach(btn => {
+simpleBtns.forEach(btn => {
   btn.addEventListener('click', () => {
     textarea.value += btn.innerText
   })
