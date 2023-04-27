@@ -56,6 +56,10 @@ textarea {
   border-radius: 0.2rem;
 }
 
+.key-active {
+  background-color: #80c2b8;
+}
+
 .black-key {
   background-color: #222222;
 }
