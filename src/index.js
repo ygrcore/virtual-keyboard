@@ -50,6 +50,18 @@ const keyboardBlock = document.createElement('div');
 keyboardBlock.classList.add('keyboard');
 container.append(keyboardBlock);
 
+const infoDiv = document.createElement('div');
+infoDiv.classList.add('info');
+const systemInfo = document.createElement('p');
+systemInfo.classList.add('info__para');
+systemInfo.textContent = 'Клавиатура создана в операционной системе Windows'
+const langInfo = document.createElement('p');
+langInfo.classList.add('info__para');
+langInfo.textContent = 'Для переключения языка комбинация: левыe ctrl + alt'
+infoDiv.append(systemInfo, langInfo);
+container.append(infoDiv);
+
+
 function init() {
   let keyboardRows = createKeyboardRows();
   for (let i=0;i<keyboardRows.length;i++) {
@@ -105,7 +117,9 @@ const buttons = document.querySelectorAll('button'),
       capslockBtn = document.querySelector('.capslock'),
       tabBtn = document.querySelector('.tab'),
       enterBtn = document.querySelector('.enter'),
-      shiftBtn = document.querySelectorAll('.shift');
+      shiftBtn = document.querySelectorAll('.shift'),
+      ctrlBtn = document.querySelectorAll('.control'),
+      altBtn = document.querySelectorAll('.alt');
 
 let textareaChars = [];
 
@@ -115,35 +129,60 @@ buttons.forEach((btn, i)=> {
 
 simpleBtns.forEach(btn => {
   btn.addEventListener('click', () => {
+    btn.classList.add('end');
     textarea.value += btn.innerText
     textareaChars = textarea.value.split('');
     console.log(textareaChars)
+    setTimeout(()=> {
+      buttons.forEach(btn => btn.classList.remove('end'))
+    },200)
   })
 })
 
 backspaceBtn.addEventListener('click', () => {
+  backspaceBtn.classList.add('end');
   textareaChars.pop();
   textarea.value = textareaChars.join('');
+  setTimeout(()=> {
+    backspaceBtn.classList.remove('end')
+  },200)
 })
 
 spaceBtn.addEventListener('click', () => {
+  spaceBtn.classList.add('end');
   textareaChars.push(' ');
   textarea.value = textareaChars.join('');
+  setTimeout(()=> {
+    spaceBtn.classList.remove('end')
+  },200)
 })
 
 tabBtn.addEventListener('click', () => {
+  tabBtn.classList.add('end');
   textareaChars.push('  ');
   textarea.value = textareaChars.join('');
+  setTimeout(()=> {
+    tabBtn.classList.remove('end')
+  },200)
 })
 
-capslockBtn.addEventListener('click', () => {
+capslockBtn.addEventListener('mousedown', () => {
+  capslockBtn.classList.toggle('key-active');
+  capslockBtn.classList.add('end');
   simpleBtns.forEach(btn => {
     btn.classList.toggle('upper-case')
   })
+  setTimeout(()=> {
+    capslockBtn.classList.remove('end')
+  },200)
 })
 
 enterBtn.addEventListener('click', () => {
+  enterBtn.classList.add('end');
   textarea.value = textarea.value + "\n";
+  setTimeout(()=> {
+    enterBtn.classList.remove('end')
+  },200)
 })
 
 
@@ -157,28 +196,30 @@ function changeLang(event) {
 }
 
 function shiftHandlerDown() {
+  shiftBtn.forEach(btn => btn.classList.add('key-active'))
   if (lang) {
     simpleBtns.forEach((btn, i) => {
       btn.innerHTML = simpleBtnsEn[i];
-      btn.classList.toggle('upper-case');
+      btn.classList.add('upper-case');
     })
   } else {
     simpleBtns.forEach((btn, i) => {
       btn.innerHTML = simpleBtnsRu[i];
-      btn.classList.toggle('upper-case');
+      btn.classList.add('upper-case');
     })
   }
 }
 function shiftHandlerUp() {
+  shiftBtn.forEach(btn => btn.classList.remove('key-active'));
   if (lang) {
     simpleBtns.forEach((btn, i) => {
       btn.innerHTML = simpleBtnsEnUsual[i];
-      btn.classList.toggle('upper-case');
+      btn.classList.remove('upper-case');
     })
   } else {
     simpleBtns.forEach((btn, i) => {
       btn.innerHTML = simpleBtnsRuUsual[i];
-      btn.classList.toggle('upper-case');
+      btn.classList.remove('upper-case');
     })
   }
 }
@@ -190,7 +231,7 @@ shiftBtn.forEach(btn => {
 });
 
 shiftBtn.forEach(btn => {
-  btn.addEventListener('mouseup', shiftHandlerUp)
+  btn.addEventListener('mouseup', shiftHandlerUp);
 });
 
 document.addEventListener('keydown', event => {
@@ -204,25 +245,87 @@ document.addEventListener('keydown', event => {
   }
 
   if (event.code == 'Space') {
+    spaceBtn.classList.add('key-active')
     textareaChars.push(' ');
     textarea.value = textareaChars.join('');
   }
   if (event.code == 'Tab') {
+    tabBtn.classList.add('key-active')
     textareaChars.push('  ');
     textarea.value = textareaChars.join('');
   }
   if (event.code == 'CapsLock') {
+    capslockBtn.classList.toggle('key-active')
+    capslockBtn.classList.add('end');
     simpleBtns.forEach(btn => {
       btn.classList.toggle('upper-case')
     })
   }
   if (event.code == 'Enter') {
+    enterBtn.classList.add('key-active')
     textarea.value = textarea.value + "\n";
     textareaChars = textarea.value.split('');
   }
   if (event.code == 'ShiftLeft' || event.code == 'ShiftRight') {
+    shiftBtn.forEach(btn => btn.classList.add('key-active'))
     shiftHandlerDown()
   }
-  console.log(textareaChars)
+  if (event.code == 'ControlLeft' || event.code == 'ControlRight') {
+    ctrlBtn.forEach(btn => btn.classList.add('key-active'));
+  }
+  if (event.code == 'AltLeft' || event.code == 'AltRight') {
+    altBtn.forEach(btn => btn.classList.add('key-active'));
+  }
+  if (event.code == 'Backspace') {
+    backspaceBtn.classList.add('key-active')
+    textareaChars.pop();
+    textarea.value = textareaChars.join('');
+  }
+
+  // console.log(textareaChars)
+})
+
+document.addEventListener('keyup', event => {
+  // event.preventDefault();
+  for (let i=0;i<simpleBtns.length;i++) {
+    if (event.code == simpleBtns[i].getAttribute('keyCode')) {
+      simpleBtns[i].classList.remove('key-active')
+      simpleBtns[i].classList.add('end')
+    }
+  }
+
+  if (event.code == 'Space') {
+    spaceBtn.classList.remove('key-active');
+    spaceBtn.classList.add('end');
+  }
+  if (event.code == 'Tab') {
+    tabBtn.classList.remove('key-active');
+    tabBtn.classList.add('end');
+  }
+  // if (event.code == 'CapsLock') {
+  //   // capslockBtn.classList.remove('key-active');
+  //   // capslockBtn.classList.add('end');
+  // }
+  if (event.code == 'Enter') {
+    enterBtn.classList.remove('key-active');
+    enterBtn.classList.add('end');
+  }
+  if (event.code == 'ShiftLeft' || event.code == 'ShiftRight') {
+    shiftBtn.forEach(btn => btn.classList.remove('key-active'))
+    shiftBtn.forEach(btn => btn.classList.add('end'))
+    shiftHandlerUp()
+  }
+  if (event.code == 'ControlLeft' || event.code == 'ControlRight') {
+    ctrlBtn.forEach(btn => btn.classList.remove('key-active'));
+  }
+  if (event.code == 'AltLeft' || event.code == 'AltRight') {
+    altBtn.forEach(btn => btn.classList.remove('key-active'));
+  }
+  if (event.code == 'Backspace') {
+    backspaceBtn.classList.remove('key-active');
+  }
+  setTimeout(()=> {
+    buttons.forEach(btn => btn.classList.remove('end'))
+  },200)
 })
 

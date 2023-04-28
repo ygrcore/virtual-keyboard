@@ -103,6 +103,22 @@ textarea {
 
 .key-active {
   background-color: #80c2b8;
+  scale: .9;
+}
+
+.end {
+  animation: key_animation 0.5s forwards;
+}
+
+@keyframes key_animation {
+  0% {
+      background-color: #80c2b8;
+      scale: .9;
+  }
+  100% {
+      background-color: #444444;
+      scale: 1;
+  }
 }
 
 .black-key {
@@ -111,4 +127,14 @@ textarea {
 
 .upper-case {
   text-transform: capitalize;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.info__para {
+  margin-top: 10px;
 }
