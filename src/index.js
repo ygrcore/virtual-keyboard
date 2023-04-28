@@ -1,4 +1,4 @@
-let lang = true; // English language default
+let lang = localStorage.getItem('lang') || 'en'; // English language default
 const keyboardEn = ['`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 'Backspace', 'Tab', 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '[', ']', '\\', 'CapsLock', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';', "'", 'Enter', 'Shift', 'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '/', '↑', 'Shift', 'Ctrl', 'Win', 'Alt', ' ', 'Alt', 'Ctrl', '←', '↓', '→'];
 const keyboardRu = ['ё', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 'Backspace', 'Tab', 'й', 'ц', 'у', 'к', 'е', 'н', 'г', 'ш', 'щ', 'з', 'х', 'ъ', '\\', 'CapsLock', 'ф', 'ы', 'в', 'а', 'п', 'р', 'о', 'л', 'д', 'ж', "э", 'Enter', 'Shift', 'я', 'ч', 'с', 'м', 'и', 'т', 'ь', 'б', 'ю', '.', '↑', 'Shift', 'Ctrl', 'Win', 'Alt', ' ', 'Alt', 'Ctrl', '←', '↓', '→'];
 const simpleBtnsEn = ['~', '!', '@','#','$','%','^', '&', '*', '(', ')', '_', '+', 'q', 'w','e','r','t','y','u','i','o','p','{','}','|','a','s','d','f','g','h','j','k','l',':','"','z','x','c','v','b','n','m','<','>','?','↑', 'Win', '←', '↓', '→'];
@@ -15,11 +15,19 @@ const keyCodes = ['Backquote', 'Digit1', 'Digit2', 'Digit3', 'Digit4', 'Digit5',
 const numberOfButtonsInARow = [14, 15, 13, 13, 9];
 
 function createKeyboardRows() {
+  console.log(lang)
+  let arr;
+  if (lang == 'en') {
+    arr = keyboardEn;
+  } else {
+    arr = keyboardRu;
+  }
   let arrayOfRows = [];
   let start = 0;
   let end = numberOfButtonsInARow[0]
   for (let i=0;i<numberOfButtonsInARow.length;i++) {
-    let row = lang? keyboardEn.slice(start, end) : keyboardRu.slice(start, end);
+    // let row = lang? keyboardEn.slice(start, end) : keyboardRu.slice(start, end);
+    let row = arr.slice(start, end);
     arrayOfRows.push(row)
     start = end;
     end = i === 0 ? start + numberOfButtonsInARow[i+1] - 1 : start + numberOfButtonsInARow[i+1];
@@ -57,13 +65,14 @@ systemInfo.classList.add('info__para');
 systemInfo.textContent = 'Клавиатура создана в операционной системе Windows'
 const langInfo = document.createElement('p');
 langInfo.classList.add('info__para');
-langInfo.textContent = 'Для переключения языка комбинация: левыe ctrl + alt'
+langInfo.textContent = 'Для переключения языка комбинация: левыe/правый ctrl + alt'
 infoDiv.append(systemInfo, langInfo);
 container.append(infoDiv);
 
 
 function init() {
   let keyboardRows = createKeyboardRows();
+  console.log(keyboardRows)
   for (let i=0;i<keyboardRows.length;i++) {
     let row = document.createElement('div');
     row.classList.add('row');
@@ -189,15 +198,18 @@ enterBtn.addEventListener('click', () => {
 function changeLang(event) {
   if (event.ctrlKey && event.altKey) {
     for (let i=0;i<buttons.length;i++) {
-      buttons[i].innerHTML = lang? keyboardRu[i] : keyboardEn[i]
+      buttons[i].innerHTML = lang == 'en' ? keyboardRu[i] : keyboardEn[i]
     }
-    lang = !lang;
+    lang = lang == 'en' ? 'ru' : 'en'
+    localStorage.setItem('lang', lang)
+    console.log(typeof lang)
+    console.log(typeof(localStorage.getItem('lang')))
   }
 }
 
 function shiftHandlerDown() {
   shiftBtn.forEach(btn => btn.classList.add('key-active'))
-  if (lang) {
+  if (lang == 'en') {
     simpleBtns.forEach((btn, i) => {
       btn.innerHTML = simpleBtnsEn[i];
       btn.classList.add('upper-case');
@@ -211,7 +223,7 @@ function shiftHandlerDown() {
 }
 function shiftHandlerUp() {
   shiftBtn.forEach(btn => btn.classList.remove('key-active'));
-  if (lang) {
+  if (lang == 'en') {
     simpleBtns.forEach((btn, i) => {
       btn.innerHTML = simpleBtnsEnUsual[i];
       btn.classList.remove('upper-case');
