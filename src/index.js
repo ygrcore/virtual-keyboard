@@ -5,9 +5,11 @@ const simpleBtnsEn = ['~', '!', '@','#','$','%','^', '&', '*', '(', ')', '_', '+
 const simpleBtnsEnUsual = ['`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 'q', 'w','e','r','t','y','u','i','o','p', '[', ']', '\\','a','s','d','f','g','h','j','k','l', ';', "'",'z','x','c','v','b','n','m', ',', '.', '/', '↑', 'Win', '←', '↓', '→'];
 const simpleBtnsRu = ['ё', '!', '"','№',';','%',':', '?', '*', '(', ')', '_', '+', 'й', 'ц','у','к','е','н','г','ш','щ','з','х','ъ','/','ф','ы','в','а','п','р','о','л','д','ж','э','я','ч','с','м','и','т','ь','б','ю',',','↑', 'Win', '←', '↓', '→'];
 const simpleBtnsRuUsual = ['ё', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 'й', 'ц','у','к','е','н','г','ш','щ','з','х','ъ','\\','ф','ы','в','а','п','р','о','л','д','ж','э','я','ч','с','м','и','т','ь','б','ю','.','↑', 'Win', '←', '↓', '→'];
+
+const keyCodes = ['Backquote', 'Digit1', 'Digit2', 'Digit3', 'Digit4', 'Digit5', 'Digit6', 'Digit7', 'Digit8', 'Digit9', 'Digit0', 'Minus', 'Equal', 'Backspace', 'Tab', 'KeyQ', 'KeyW', 'KeyE', 'KeyR', 'KeyT', 'KeyY', 'KeyU', 'KeyI', 'KeyO', 'KeyP', 'BracketLeft', 'BracketRight', 'Backslash', 'CapsLock', 'KeyA', 'KeyS', 'KeyD', 'KeyF', 'KeyG', 'KeyH', 'KeyJ', 'KeyK', 'KeyL', 'Semicolon', 'Quote', 'Enter', 'ShiftLeft', 'KeyZ', 'KeyX', 'KeyC', 'KeyV', 'KeyB', 'KeyN', 'KeyM', 'Comma', 'Period', 'Slash', 'ArrowUp', 'ShiftRight', 'ControlLeft', 'MetaLeft', 'AltLeft', 'Space', 'AltRight', 'ControlRight', 'ArrowLeft', 'ArrowDown', 'ArrowRight']
 // document.onkeydown = function(e) {
-// console.log(e.key)
-// //   keyboard.push(e.key);
+//   arrtutu.push(e.code);
+  // console.log(keyCodes.length, keyboardEn.length)
 // }
 
 const numberOfButtonsInARow = [14, 15, 13, 13, 9];
@@ -107,6 +109,10 @@ const buttons = document.querySelectorAll('button'),
 
 let textareaChars = [];
 
+buttons.forEach((btn, i)=> {
+  btn.setAttribute('keyCode', keyCodes[i])
+})
+
 simpleBtns.forEach(btn => {
   btn.addEventListener('click', () => {
     textarea.value += btn.innerText
@@ -187,4 +193,36 @@ shiftBtn.forEach(btn => {
   btn.addEventListener('mouseup', shiftHandlerUp)
 });
 
+document.addEventListener('keydown', event => {
+  event.preventDefault();
+  for (let i=0;i<simpleBtns.length;i++) {
+    if (event.code == simpleBtns[i].getAttribute('keyCode')) {
+      simpleBtns[i].classList.add('key-active')
+      textarea.value += simpleBtns[i].innerText
+      textareaChars = textarea.value.split('');
+    }
+  }
+
+  if (event.code == 'Space') {
+    textareaChars.push(' ');
+    textarea.value = textareaChars.join('');
+  }
+  if (event.code == 'Tab') {
+    textareaChars.push('  ');
+    textarea.value = textareaChars.join('');
+  }
+  if (event.code == 'CapsLock') {
+    simpleBtns.forEach(btn => {
+      btn.classList.toggle('upper-case')
+    })
+  }
+  if (event.code == 'Enter') {
+    textarea.value = textarea.value + "\n";
+    textareaChars = textarea.value.split('');
+  }
+  if (event.code == 'ShiftLeft' || event.code == 'ShiftRight') {
+    shiftHandlerDown()
+  }
+  console.log(textareaChars)
+})
 
