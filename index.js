@@ -113,7 +113,6 @@ simpleBtns.forEach(btn => {
     btn.classList.add('end');
     textarea.value += btn.innerText
     textareaChars = textarea.value.split('');
-    console.log(textareaChars)
     setTimeout(()=> {
       buttons.forEach(btn => btn.classList.remove('end'))
     },200)
