@@ -194,6 +194,23 @@ enterBtn.addEventListener('click', () => {
   },200)
 })
 
+ctrlBtn.forEach(btn => {
+  btn.addEventListener('click', () => {
+    btn.classList.add('end');
+    setTimeout(()=> {
+      btn.classList.remove('end')
+    },200)
+  })
+})
+
+altBtn.forEach(btn => {
+  btn.addEventListener('click', () => {
+    btn.classList.add('end');
+    setTimeout(()=> {
+      btn.classList.remove('end')
+    },200)
+  })
+})
 
 function changeLang(event) {
   if (event.ctrlKey && event.altKey) {
