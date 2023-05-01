@@ -6,16 +6,11 @@ const simpleBtnsEnUsual = ['`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0'
 const simpleBtnsRu = ['ё', '!', '"','№',';','%',':', '?', '*', '(', ')', '_', '+', 'й', 'ц','у','к','е','н','г','ш','щ','з','х','ъ','/','ф','ы','в','а','п','р','о','л','д','ж','э','я','ч','с','м','и','т','ь','б','ю',',','↑', 'Win', '←', '↓', '→'];
 const simpleBtnsRuUsual = ['ё', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 'й', 'ц','у','к','е','н','г','ш','щ','з','х','ъ','\\','ф','ы','в','а','п','р','о','л','д','ж','э','я','ч','с','м','и','т','ь','б','ю','.','↑', 'Win', '←', '↓', '→'];
 
-const keyCodes = ['Backquote', 'Digit1', 'Digit2', 'Digit3', 'Digit4', 'Digit5', 'Digit6', 'Digit7', 'Digit8', 'Digit9', 'Digit0', 'Minus', 'Equal', 'Backspace', 'Tab', 'KeyQ', 'KeyW', 'KeyE', 'KeyR', 'KeyT', 'KeyY', 'KeyU', 'KeyI', 'KeyO', 'KeyP', 'BracketLeft', 'BracketRight', 'Backslash', 'CapsLock', 'KeyA', 'KeyS', 'KeyD', 'KeyF', 'KeyG', 'KeyH', 'KeyJ', 'KeyK', 'KeyL', 'Semicolon', 'Quote', 'Enter', 'ShiftLeft', 'KeyZ', 'KeyX', 'KeyC', 'KeyV', 'KeyB', 'KeyN', 'KeyM', 'Comma', 'Period', 'Slash', 'ArrowUp', 'ShiftRight', 'ControlLeft', 'MetaLeft', 'AltLeft', 'Space', 'AltRight', 'ControlRight', 'ArrowLeft', 'ArrowDown', 'ArrowRight']
-// document.onkeydown = function(e) {
-//   arrtutu.push(e.code);
-  // console.log(keyCodes.length, keyboardEn.length)
-// }
+const keyCodes = ['Backquote', 'Digit1', 'Digit2', 'Digit3', 'Digit4', 'Digit5', 'Digit6', 'Digit7', 'Digit8', 'Digit9', 'Digit0', 'Minus', 'Equal', 'Backspace', 'Tab', 'KeyQ', 'KeyW', 'KeyE', 'KeyR', 'KeyT', 'KeyY', 'KeyU', 'KeyI', 'KeyO', 'KeyP', 'BracketLeft', 'BracketRight', 'Backslash', 'CapsLock', 'KeyA', 'KeyS', 'KeyD', 'KeyF', 'KeyG', 'KeyH', 'KeyJ', 'KeyK', 'KeyL', 'Semicolon', 'Quote', 'Enter', 'ShiftLeft', 'KeyZ', 'KeyX', 'KeyC', 'KeyV', 'KeyB', 'KeyN', 'KeyM', 'Comma', 'Period', 'Slash', 'ArrowUp', 'ShiftRight', 'ControlLeft', 'MetaLeft', 'AltLeft', 'Space', 'AltRight', 'ControlRight', 'ArrowLeft', 'ArrowDown', 'ArrowRight'];
 
 const numberOfButtonsInARow = [14, 15, 13, 13, 9];
 
 function createKeyboardRows() {
-  console.log(lang)
   let arr;
   if (lang == 'en') {
     arr = keyboardEn;
@@ -26,7 +21,6 @@ function createKeyboardRows() {
   let start = 0;
   let end = numberOfButtonsInARow[0]
   for (let i=0;i<numberOfButtonsInARow.length;i++) {
-    // let row = lang? keyboardEn.slice(start, end) : keyboardRu.slice(start, end);
     let row = arr.slice(start, end);
     arrayOfRows.push(row)
     start = end;
@@ -34,11 +28,6 @@ function createKeyboardRows() {
   }
   return arrayOfRows;
 }
-
-// console.log(keyboardEn.slice(14,14+15-1))
-// console.log(keyboardEn.slice(14+15-1,14+15-1+13))
-// console.log(keyboardEn.slice(14+15-1+13,14+15-1+13+13))
-// console.log(keyboardEn.slice(14+15-1+13+13,14+15-1+13+13+9))
 
 const container = document.createElement('div');
 container.classList.add('container');
@@ -72,7 +61,6 @@ container.append(infoDiv);
 
 function init() {
   let keyboardRows = createKeyboardRows();
-  console.log(keyboardRows)
   for (let i=0;i<keyboardRows.length;i++) {
     let row = document.createElement('div');
     row.classList.add('row');
@@ -99,22 +87,6 @@ function init() {
     keyboardBlock.append(row)
   }
 }
-// function init() {
-//   for (let i=0;i<keyboardEn.length;i++) {
-//     let button = document.createElement('button');
-//     button.textContent = `${keyboardEn[i]}`
-//     if (keyboardEn[i] === 'Backspace') button.classList.add('backspace');
-//     else if (keyboardEn[i] === 'Tab') button.classList.add('tab');
-//     else if (keyboardEn[i] === 'CapsLock') button.classList.add('capslock');
-//     else if (keyboardEn[i] === 'Enter') button.classList.add('enter');
-//     else if (keyboardEn[i] === 'Control') button.classList.add('control');
-//     else if (keyboardEn[i] === 'Alt') button.classList.add('alt');
-//     else if (keyboardEn[i] === ' ') button.classList.add('space');
-//     else button.classList.add('key');
-//     keyboardBlock.append(button)
-
-//   }
-// }
 
 init();
 
@@ -219,8 +191,6 @@ function changeLang(event) {
     }
     lang = lang == 'en' ? 'ru' : 'en'
     localStorage.setItem('lang', lang)
-    console.log(typeof lang)
-    console.log(typeof(localStorage.getItem('lang')))
   }
 }
 
@@ -310,8 +280,6 @@ document.addEventListener('keydown', event => {
     textareaChars.pop();
     textarea.value = textareaChars.join('');
   }
-
-  // console.log(textareaChars)
 })
 
 document.addEventListener('keyup', event => {
@@ -331,10 +299,6 @@ document.addEventListener('keyup', event => {
     tabBtn.classList.remove('key-active');
     tabBtn.classList.add('end');
   }
-  // if (event.code == 'CapsLock') {
-  //   // capslockBtn.classList.remove('key-active');
-  //   // capslockBtn.classList.add('end');
-  // }
   if (event.code == 'Enter') {
     enterBtn.classList.remove('key-active');
     enterBtn.classList.add('end');
